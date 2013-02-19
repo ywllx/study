@@ -32,3 +32,10 @@ void bitree_rem_right(BiTree *tree, BiTreeNode *node);
 
 #define bitree_size(tree) ((tree)->size)
 #define bitree_root(tree) ((tree)->root)
+#define bitree_is_leaf(node) ((node)->left == NULL && (node)->right == NULL)
+#define bitree_data(node) ((node)->data)
+#define bitree_left(node) ((node)->left)
+#define bitree_right(node) ((node)->right)
+
+#endif
+
