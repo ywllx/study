@@ -19,7 +19,7 @@ void list_destroy(List *list)
 
 	/* remove each node */
 	while (list_size(list) > 0) {
-		if (list_rem_next(list, NULL, (void **)&data) && (list->destroy != NULL))
+		if (list_rem_next(list, NULL, (void **)&data) == 0 && (list->destroy != NULL))
 			list->destroy(data);
 	}
 
@@ -36,16 +36,15 @@ int list_ins_list(List *list, ListNode *node, const void *data)
 		return -1;
 
 	new_node->data = (void *)data;
-	/* insert the data into the list be careful of the position in head and tail */
+	/* insert the data in the head position of the list */
 	if (node == NULL) {
-		if (list_size(list) != 0)
-			return -1;
-			
-		list->head = new_node;
+		if (list_size(list) == 0)
+			list->tail = new_node;
 
-		new_node->next = list->tail;
-		list->tail = new_node;
+		new_node->next = list->head;
+		list->head = new_node;
 	}
+	/* insert the data somewhere other than the head position of the list */ 
 	else {
 		if (node->next == NULL)
 			list->tail = new_node;
@@ -60,7 +59,7 @@ int list_ins_list(List *list, ListNode *node, const void *data)
 }
 
 /* Remove the node's next node from the list */
-int list_rem_next(List *list, ListNode *node, void *data)
+int list_rem_next(List *list, ListNode *node, void **data)
 {
 	ListNode *old_node;
 
