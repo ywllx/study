@@ -8,7 +8,7 @@
 int stack_push(Stack *stack, const void *data)
 {
 	/* push the data onto the stack like insert the data to the head of the list */
-	return list_int_next(stack, NULL, data);
+	return list_ins_next(stack, NULL, data);
 }
 
 /* stack pop */

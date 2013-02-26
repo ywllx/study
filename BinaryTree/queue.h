@@ -10,7 +10,7 @@
 typedef List Queue;
 
 /* Public interface */
-#define queue_list list_init
+#define queue_init list_init
 #define queue_destroy list_destroy
 
 int queue_enqueue(Queue *queue, const void *data);

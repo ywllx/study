@@ -1,6 +1,6 @@
 /* bitree.h */
-#ifndef BITREE.H
-#define BITREE.H
+#ifndef BITREE_H
+#define BITREE_H
 
 #include <stdlib.h>
 
@@ -18,7 +18,7 @@ typedef struct BiTree_
 	int size;
 	int (*compare)(const void *key1, const void *key2);
 	void (*destroy)(void *data);
-	BitreeNode *root;
+	BiTreeNode *root;
 }BiTree;
 
 

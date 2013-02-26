@@ -28,7 +28,7 @@ void list_destroy(List *list)
 }
 
 /* Insert the data behind the node */
-int list_ins_list(List *list, ListNode *node, const void *data)
+int list_ins_next(List *list, ListNode *node, const void *data)
 {
 	ListNode *new_node;
 
