@@ -4,12 +4,13 @@
 #include "list.h"
 
 /* Initial a tree */
-void list_init(List* list, void (*destroy)(void *data))
+void list_init(List *list, void (*destroy)(void *data))
 {
 	list->size = 0;
 	list->destroy = destroy;
 	list->head = NULL;
 	list->tail = NULL;
+	return;
 }
 
 /* destroy a tree by removing each node of the list */
