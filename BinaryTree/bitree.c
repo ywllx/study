@@ -25,7 +25,7 @@ void bitree_destroy(BiTree *tree)
 }
 
 /* Insert the data on the left of node of the tree */
-int bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data)
+BiTreeNode* bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data)
 {
 	BiTreeNode *new_node, **position;
 
@@ -33,20 +33,20 @@ int bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data)
 	if (node == NULL) 
 	{
 		if (bitree_size(tree) > 0)
-			return -1;
+			return NULL;
 
 		position = &tree->root;
 	}
 	else
 	{
 		if (bitree_left(node) != NULL)
-			return -1;
+			return NULL;
 
 		position = &node->left;
 	}
 
 	if ((new_node = (BiTreeNode *)malloc(sizeof(BiTreeNode))) == NULL)
-		return -1;
+		return NULL;
 
 	/* insert the new_node to the tree */
 	new_node->data = (void *)data;
@@ -55,12 +55,12 @@ int bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data)
 	*position = new_node;
 
 	tree->size++;
-	return 0;
+	return *position;
 }
 
 
 /* Insert the data on the right of the node of the tree */
-int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data)
+BiTreeNode* bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data)
 {
 	BiTreeNode *new_node, **position;
 
@@ -68,20 +68,20 @@ int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data)
 	if (node == NULL)
 	{
 		if (bitree_size(tree) > 0)
-			return -1;
+			return NULL;
 
 		position = &tree->root;
 	}
 	else
 	{
 		if (bitree_right(node) != NULL )
-			return -1;
+			return NULL;
 
 		position = &node->right;
 	}
 
 	if ((new_node = (BiTreeNode *)malloc(sizeof(BiTreeNode))) == -1)
-		return -1;
+		return NULL;
 
 	/* insert the new_node to the tree */
 	new_node->data = (void *)data;
@@ -90,7 +90,7 @@ int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data)
 	*position = new_node;
 
 	tree->size++;
-	return 0;
+	return *position;
 }
 
 /* Remove the left sub-tree of the node */
@@ -118,7 +118,7 @@ void bitree_rem_left(BiTree *tree, BiTreeNode *node)
 		}
 
 		free(*position);
-		*posiion = NULL;
+		*position = NULL;
 		tree->size--;
 	}
 
@@ -150,7 +150,7 @@ void bitree_rem_right(BiTree *tree, BiTreeNode *node)
 		}
 
 		free(*position);
-		*posiion = NULL;
+		*position = NULL;
 		tree->size--;
 	}
 
