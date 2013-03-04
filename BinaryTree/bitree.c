@@ -80,7 +80,7 @@ BiTreeNode* bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data)
 		position = &node->right;
 	}
 
-	if ((new_node = (BiTreeNode *)malloc(sizeof(BiTreeNode))) == -1)
+	if ((new_node = (BiTreeNode *)malloc(sizeof(BiTreeNode))) == NULL)
 		return NULL;
 
 	/* insert the new_node to the tree */
