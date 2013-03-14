@@ -45,7 +45,6 @@ int main()
 	node = NULL;
 
 	int c;	
-	int count = 0;
 	while ((c = getchar()) != '#') {
 		int *p;
 		p = (int *)malloc(sizeof(int));
@@ -68,7 +67,6 @@ int main()
 						return -1;
 					}
 					queue_enqueue(queue, node);
-					count++;
 				}
 				/* Insert the right node */
 				if (*p == '$') {
@@ -79,7 +77,9 @@ int main()
 							return -1;
 						}
 						queue_enqueue(queue, node);
-						count++;
+					}
+					else {
+						return -1;
 					}
 				}
 			}
