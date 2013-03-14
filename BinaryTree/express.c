@@ -45,6 +45,7 @@ int main()
 	node = NULL;
 
 	int c;	
+	int count = 0;
 	while ((c = getchar()) != '#') {
 		int *p;
 		p = (int *)malloc(sizeof(int));
@@ -54,7 +55,35 @@ int main()
 		else
 		{
 			*p = c;
-			
+			/* Insert the other node other than root node */
+			if (bitree_size(tree) > 0) {
+				/* get the insert position pointer of the tree */
+				BiTreeNode **q;
+				queue_dequeue(queue, (void **)q);
+
+				/* Insert the left node */
+				if (*p != '$') {
+					node = bitree_ins_left(tree, *q, p);
+					if (root == NULL) {
+						return -1;
+					}
+					queue_enqueue(queue, node);
+					count++;
+				}
+				/* Insert the right node */
+				if (*p == '$') {
+					*p = getchar();
+					if (*p != '$' && *p != '#') {
+						node = bitree_ins_right(tree, *q, p);
+						if (root == NULL) {
+							return -1;
+						}
+						queue_enqueue(queue, node);
+						count++;
+					}
+				}
+			}
+
 			/* first insert the root node of the tree */
 			if (bitree_size(tree) == 0) {
 				root = bitree_ins_left(tree, NULL, p);
@@ -64,37 +93,17 @@ int main()
 				node = root;
 				/* enqueue the node pointer to the queue */
 				queue_enqueue(queue, node);
-			}
-
-			/* Insert the other node other than root node */
-			if (bitree_size(tree) > 0) {
-				/* get the insert position pointer of the tree */
-				BiTreeNode **q;
-				queue_dequeue(queue, (void **)(&q));
-
-				/* Insert the left node */
-				if (*p != '$') {
-					node = bitree_ins_left(tree, *q, p);
-					if (root == NULL) {
-						return -1;
-					}
-					queue_enqueue(queue, node);
-				}
-				/* Insert the right node */
-				if (*p != '$') {
-					node = bitree_ins_right(tree, *q, p);
-					if (root == NULL) {
-						return -1;
-					}
-					queue_enqueue(queue, node);
-				}
+				count++;
 			}
 		}
 	}
 	
+	printf("tree size: %d\n", bitree_size(tree));
 
 	if (preorder(root, list) != 0)
 		return -1;
+	
+	printf("list size: %d\n", list_size(list));
 
 	while(list_size(list) > 0) {
 		int *q;
