@@ -93,7 +93,6 @@ int main()
 				node = root;
 				/* enqueue the node pointer to the queue */
 				queue_enqueue(queue, node);
-				count++;
 			}
 		}
 	}
