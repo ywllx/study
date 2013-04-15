@@ -126,6 +126,7 @@ print "x > y, x < y, (x - y) < x"
 print (x > y, x < y, (x - y) < x)
 print '-'*40
 
-print "Use dir() retunr the list of valid attributes including methods fot the set:"
+print "Use dir() return the list of valid attributes including methods fot the set:"
 print (dir(x))
 print '-'*40
+

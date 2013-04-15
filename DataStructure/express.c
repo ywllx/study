@@ -99,7 +99,8 @@ int main()
 	
 	printf("tree size: %d\n", bitree_size(tree));
 
-	if (preorder(root, list) != 0)
+
+	if (postorder(root, list) != 0)
 		return -1;
 	
 	printf("list size: %d\n", list_size(list));
