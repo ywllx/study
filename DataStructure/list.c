@@ -1,57 +1,75 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "list.h"
 
-/* Initial a tree */
-void list_init(List *list, void (*destroy)(void *data))
+/* Initial a list */
+void list_init(List *list)
 {
 	list->size = 0;
-	list->destroy = destroy;
 	list->head = NULL;
 	list->tail = NULL;
-	return;
 }
 
-/* destroy a tree by removing each node of the list */
-void list_destroy(List *list)
+/* get the ListNode of the location i in the list */
+ListNode* get_node(List* list, int pos)
 {
-	void *data;
-
-	/* remove each node */
-	while (list_size(list) > 0) {
-		if (list_rem_next(list, NULL, (void **)&data) == 0 && (list->destroy != NULL))
-			list->destroy(data);
+	if (pos <=0 || pos > (list->size)) {
+		fprintf(stderr, "i is outof range of list size)\n");
+		return;
+	}
+	
+	int i = 0;
+	ListNode* head = list->head;
+	ListNode* node = head;
+	while (i < (pos-1)) {
+		node = node->next;
+		i++;
 	}
 
-	memset(list, 0, sizeof(list));
-	return;
+	return node;
 }
 
-/* Insert the data behind the node */
-int list_ins_next(List *list, ListNode *node, const void *data)
+/* Insert the data in the position i of the list */
+int list_ins(List *list, int pos, Datatype data)
 {
+	if (pos <=0 || pos > (list->size) + 1) {
+		fprintf(stderr, "i is outof range of list size)\n");
+		return;
+	}
+	
 	ListNode *new_node;
-
-	if ((new_node = (ListNode *)malloc(sizeof(ListNode))) == NULL)
+	if ((new_node = (ListNode *)malloc(sizeof(ListNode))) == NULL) {
+		fprintf(stderr, "malloc function error\n");
 		return -1;
-
-	new_node->data = (void *)data;
-	/* insert the data in the head position of the list */
-	if (node == NULL) {
-		if (list_size(list) == 0)
-			list->tail = new_node;
-
-		new_node->next = list->head;
-		list->head = new_node;
 	}
-	/* insert the data somewhere other than the head position of the list */ 
-	else {
-		if (node->next == NULL)
-			list->tail = new_node;
+	new_node->data = data;
 
-		new_node->next = node->next;
-		node->next = new_node;
+	if (pos <= (list->size)) {
+		ListNode *node = get_node(list, pos);
+		/* insert the data in the head position of the list */
+		if (pos == 1) {
+			new_node->next = list->head;
+			list->head = new_node;
+		}
+		/* insert the data somewhere other than the head and tail position of the list */ 
+		else {
+			new_node->next = node->next;
+			node->next = new_node;
+		}
+	}
+	/* insert the data in the tail position of the list */ 
+	else {
+		/* first if list is NULL */ 
+		if (list->size == 0) {
+			list->head = new_node;
+			list->tail = new_node;
+			new_node->next = NULL;
+		}
+		list->tail->next = new_node;
+		new_node->next = NULL;
+		list->tail = new_node;
 	}
 
 	list->size++;
@@ -60,38 +78,39 @@ int list_ins_next(List *list, ListNode *node, const void *data)
 }
 
 /* Remove the node's next node from the list */
-int list_rem_next(List *list, ListNode *node, void **data)
+int list_rem(List *list, int pos, Datatype *data)
 {
-	ListNode *old_node;
+	if (pos <=0 || pos > (list->size)) {
+		fprintf(stderr, "i is outof range of list size)\n");
+		return;
+	}
 
-	if (list_size(list) <= 0)
+	if (list->size <= 0) {
+		fprintf(stderr, "list size is less than 1)\n");
 		return -1;
+	}
+
+	ListNode *node = get_node(list, pos);
+	*data = node->data;
 
 	/* remove the head from the list because there is NULL before head node */
-	if (node == NULL) {
-		*data = list->head->data;
-		old_node = list->head;
+	if (node == list->head) {
 		list->head = list->head->next;
 		
-		if (list_size(list) == 1)
+		if (list->size == 1)
 			list->tail = NULL;
 	}
 	else {
-		if (node->next == NULL)
-			return -1;
-
-		*data = node->next->data;
-		old_node = node->next;
-		node->next = node->next->next;
+		ListNode *prenode = get_node(list, pos-1);
+		prenode->next = node->next;
 
 		if (node->next = NULL)
-			list->tail = node;
+			list->tail = prenode;
 	}
 
-	free(old_node);
+	free(node);
 	list->size--;
 
 	return 0;
 }
-
 
