@@ -5,14 +5,14 @@
 #include "list.h"
 
 /* enqueue like insert the data to the list of tail */
-int queue_enqueue(Queue *queue, const void *data)
+int queue_enqueue(Queue *queue, Datatype data)
 {
-	list_ins_next(queue, list_tail(queue), data);
+	list_ins(queue, (queue->size)+1, data);
 }
 
 /* dequeue like remove the data of the head */
-int queue_dequeue(Queue *queue, void **data)
+int queue_dequeue(Queue *queue, Datatype* data)
 {
-	list_rem_next(queue, NULL, data);
+	list_rem(queue, 1, data);
 }
 
