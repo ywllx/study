@@ -4,10 +4,12 @@
 
 #include <stdlib.h>
 
+typedef int Datatype
+
 /* Define a structure for binarytree node */
 typedef struct BiTreeNode_
 {
-	void *data;
+	Datatype data;
 	struct BiTreeNode_ *left;
 	struct BiTreeNode_ *right;
 }BiTreeNode;
@@ -16,17 +18,14 @@ typedef struct BiTreeNode_
 typedef struct BiTree_
 {
 	int size;
-	int (*compare)(const void *key1, const void *key2);
-	void (*destroy)(void *data);
 	BiTreeNode *root;
 }BiTree;
 
 
 /* Public interface */
-void bitree_init(BiTree *tree, void (*destroy)(void *data));
-void bitree_destroy(BiTree *tree);
-BiTreeNode* bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data);
-BiTreeNode* bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data);
+void bitree_init(BiTree *tree);
+BiTreeNode* bitree_ins_left(BiTree *tree, BiTreeNode *node, Datatype *data);
+BiTreeNode* bitree_ins_right(BiTree *tree, BiTreeNode *node, Datatype *data);
 void bitree_rem_left(BiTree *tree, BiTreeNode *node);
 void bitree_rem_right(BiTree *tree, BiTreeNode *node);
 
