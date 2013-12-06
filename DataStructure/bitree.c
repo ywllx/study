@@ -1,3 +1,4 @@
+/*binary tree*/
 #include <stdlib.h>
 #include <string.h>
 #include "bitree.h"
